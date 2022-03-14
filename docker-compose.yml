@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  picksmart:
+    build:
+      context: ./
+      dockerfile: Dockerfile    
+    volumes:
+      - .:/home/picksmart
+      - ./html/:/usr/local/apache2/htdocs/
+    restart: always
+    ports:
+      - 4444:4444
+    command: "/usr/bin/python2.7 /home/picksmart/app.py"
+  picksmart_front:
+    image: httpd:2.4
+    user: root:root
+    restart: always
+    volumes_from:      
+      - picksmart
+    ports:
+      - 4445:80
